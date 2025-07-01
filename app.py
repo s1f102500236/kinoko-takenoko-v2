@@ -7,8 +7,6 @@ message=['kinoko is wonderfull', 'Takenoko is awesome!']
 
 @app.route('/')
 def top():
-    kinoko_percent=kinoko_count / (kinoko_count + takenoko_count) *100
-    takenoko_percent=takenoko_count / (kinoko_count + takenoko_count) *100
     return render_template('index.html', **vars())
 
 @app.route('/vote', methods=['POST'])
@@ -18,6 +16,9 @@ def answer():
         kinoko_count +=1
     elif request.form.get("item")=='takenoko':
         takenoko_count +=1
+        
+    kinoko_percent=kinoko_count / (kinoko_count + takenoko_count) *100
+    takenoko_percent=takenoko_count / (kinoko_count + takenoko_count) *100
     return render_template('vote.html', **vars())
 
 if __name__ == '__main__':
