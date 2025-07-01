@@ -9,6 +9,7 @@ message=['kinoko is wonderfull', 'Takenoko is awesome!']
 def top():
     return render_template('index.html', **vars())
 
+import re
 @app.route('/vote', methods=['POST'])
 def answer():
     global kinoko_count, takenoko_count, messages
@@ -26,6 +27,9 @@ def answer():
     message_html=''
     for i in range(len(message)):
         message=message[i]
+        message=re.sub(r'&', r'&amp;', message)
+        message=re.sub(r'<', r'&It;', message)
+        message=re.sub(r'>', r'&gt;', message)
         message_html +='<div class="alert {1}" role="alert">{0}</div>\n'.format(message, 'alert-warning ms-5' if i % 2==0 else 'alert-sucess me-5')
     return render_template('vote.html', **vars())
 
